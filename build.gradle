@@ -1,27 +1,29 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id "org.flywaydb.flyway" version "6.3.2"
 }
 
 apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 
-group 'org.example'
+group 'com.pi'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
-}
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.hibernate:hibernate-core:5.4.13.Final'
+    implementation 'org.postgresql:postgresql:9.4.1208'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
-repositories {
-    jcenter()
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

@@ -1,0 +1,46 @@
+CREATE TABLE person_type
+(
+    id           SERIAL       NOT NULL PRIMARY KEY,
+    code         VARCHAR(32)  UNIQUE  NOT NULL,
+    name         VARCHAR(64)  NOT NULL
+); 
+INSERT INTO person_type (code, name) VALUES ('ADMIN', 'Администратор'),('SPECIALIST', 'Специалист'),('CLIENT', 'Клиент');
+
+CREATE TABLE person
+(
+    id          SERIAL          NOT NULL PRIMARY KEY,
+    full_name   VARCHAR(256)    NOT NULL,
+    inn         VARCHAR(16)     UNIQUE,
+    birthday    TIMESTAMP      NOT NULL,
+    login       VARCHAR(128)    NOT NULL,
+    password    VARCHAR(128)    NOT NULL,
+    position    VARCHAR(256),
+    type        INTEGER         NOT NULL REFERENCES person_type (id)
+);
+
+CREATE TABLE photo_service
+(
+    id          SERIAL          NOT NULL PRIMARY KEY,
+    name        VARCHAR(256)    NOT NULL,
+    price       INTEGER         NOT NULL
+);
+
+CREATE TABLE payment_status
+(
+    id           SERIAL       NOT NULL PRIMARY KEY,
+    code         VARCHAR(32)  UNIQUE  NOT NULL,
+    name         VARCHAR(64)  NOT NULL
+); 
+INSERT INTO payment_status (code, name) VALUES ('APPROVED', 'Одобрен'),('CANCELED', 'Отменен'),('COMPLETED', 'Выполнен');
+
+CREATE TABLE payment
+(
+    id              SERIAL          NOT NULL PRIMARY KEY,
+    number          VARCHAR(32)     UNIQUE NOT NULL,
+    date_start      TIMESTAMP      NOT NULL,
+    date_end        TIMESTAMP,
+    photo_service   INTEGER         NOT NULL REFERENCES photo_service (id),
+    description     VARCHAR(128),
+    person          INTEGER         NOT NULL REFERENCES person (id),
+    status          INTEGER         NOT NULL REFERENCES payment_status (id)
+);
