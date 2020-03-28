@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @GetMapping("/users")
     public String getUsers() {
-        return "Это вроде как мои пользователи!";
+        return "Пользователи!";
     }
 }
