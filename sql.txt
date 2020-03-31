@@ -11,8 +11,8 @@ CREATE TABLE person
     id          SERIAL          NOT NULL PRIMARY KEY,
     full_name   VARCHAR(256)    NOT NULL,
     inn         VARCHAR(16)     UNIQUE,
-    birthday    TIMESTAMP      NOT NULL,
-    login       VARCHAR(128)    NOT NULL,
+    birthday    TIMESTAMP       NOT NULL,
+    login       VARCHAR(128)    UNIQUE NOT NULL,
     password    VARCHAR(128)    NOT NULL,
     position    VARCHAR(256),
     type        INTEGER         NOT NULL REFERENCES person_type (id)
@@ -44,3 +44,8 @@ CREATE TABLE payment
     person          INTEGER         NOT NULL REFERENCES person (id),
     status          INTEGER         NOT NULL REFERENCES payment_status (id)
 );
+
+insert into photo_service (name, price) values('Фотосессия на фоне заката', 100000);
+insert into photo_service (name, price) values('Фотосессия семьей', 350000);
+
+insert into person (full_name, inn, birthday, login, password, type) values ('Сидоров Ф.Ф', '222', now(), 'admin', '$2a$11$uU.3McWvCaZmoTH7CLQvo.LP.wdyAGhQLlUkkIt3l/P0U6Qxb2Bhi', 1);

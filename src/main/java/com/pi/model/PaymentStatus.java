@@ -3,13 +3,12 @@ package com.pi.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "person_type")
-public class PersonType {
+@Table(name = "payment_status")
+public class PaymentStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String code;
     private String name;
 
     public Integer getId() {
@@ -18,14 +17,6 @@ public class PersonType {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getName() {

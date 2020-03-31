@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="styles.css" rel="stylesheet">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#date").datepicker({
+                dateFormat: "dd.mm.yy"
+            });
+        });
+    </script>
+    <title>Фотостудия - страница клиента</title>
+</head>
+<body style="background-color: #EAEAEA">
+<div class="row client-top-row">
+    <div class="col-md-6">
+        <div>Услуги</div>
+        <table>
+            <thead>
+            <th>Наименование</th>
+            <th>Стоимость</th>
+            </thead>
+            <tbody>
+            <tr th:each="service : ${photoServices}">
+                <td th:text="${service.name}"></td>
+                <td th:text="${service.price}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div>Мои заказы</div>
+        <table>
+            <thead>
+            <th>Наименование</th>
+            <th>Стоимость</th>
+            </thead>
+            <tbody>
+            <tr th:each="payment : ${payments}">
+                <td th:text="${payment.number}"></td>
+                <td th:text="${payment.photoService.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="client-bottom-row">
+        <div class="form-group">
+            <label for="spec" class="text-info">Выбор специалиста</label><br>
+            <select id="spec">
+                <option th:each="spec: ${specialists}" th:value="${spec.id}" th:text="${spec.fullName}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date" class="text-info">Дата заказа</label><br>
+            <input type="text" readonly="true" name="date" id="date" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="date" class="text-info">Услуги</label><br>
+            <select id="service">
+                <option th:value="${null}">Не выбрано</option>
+                <option th:each="service: ${photoServices}" th:value="${service.id}" th:text="${service.name}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button>Забронировать</button>
+        </div>
+    </div>
+</body>
+</html>

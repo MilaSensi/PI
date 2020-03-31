@@ -1,0 +1,45 @@
+.client-top-row {
+    height: 70vh;
+    margin: 10px;
+    border: 2px solid;
+}
+
+.client-bottom-row {
+    display: flex;
+    height: 20vh;
+    margin: 10px;
+    border: 2px solid;
+}
+
+table, th, td {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.form-control[readonly] {
+    background-color: #ffffff !important;
+    opacity: 1;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #17a2b8;
+    height: 100vh;
+}
+
+#form-block .container #login-row #login-column #login-box {
+    margin-top: 60px;
+    max-width: 600px;
+    height: auto;
+    border: 1px solid #9C9C9C;
+    background-color: #EAEAEA;
+}
+
+#form-block .container #login-row #login-column #login-box #login-form {
+    padding: 20px;
+}
+
+#form-block .container #login-row #login-column #login-box #login-form #register-link {
+    margin-top: -85px;
+}

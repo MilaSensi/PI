@@ -8,7 +8,7 @@ import java.util.Date;
 public class Person {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name="full_name")
@@ -18,12 +18,27 @@ public class Person {
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthday;
     private String login;
-    private String password;
+    @Column(name="password")
+    private String passwordHash;
     private String position;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "type")
     private PersonType personType;
+
+    public Person(Integer id, String fullName, String inn, Date birthday, String login, String password, String position, PersonType personType) {
+        this.id = id;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.birthday = birthday;
+        this.login = login;
+        this.passwordHash = password;
+        this.position = position;
+        this.personType = personType;
+    }
+
+    public Person() {
+    }
 
     public Integer getId() {
         return id;
@@ -65,12 +80,12 @@ public class Person {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public String getPosition() {

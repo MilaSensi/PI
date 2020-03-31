@@ -3,14 +3,15 @@ package com.pi.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "person_type")
-public class PersonType {
+@Table(name = "photo_service")
+public class PhotoService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String code;
+
     private String name;
+    private Integer price;
 
     public Integer getId() {
         return id;
@@ -20,19 +21,19 @@ public class PersonType {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }
