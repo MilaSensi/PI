@@ -1,15 +1,19 @@
 package com.pi.service;
 
 import com.pi.model.Person;
+import com.pi.model.SecurityPerson;
 import com.pi.repository.PersonRepo;
 import com.pi.repository.PersonTypeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -28,17 +32,18 @@ public class PersonService {
 
     /**
      * Получить пользователя
+     *
      * @param login Строка логина
      * @return Person - объект пользователя
      */
-    public Person getByLogin(String login){
+    public Person getByLogin(String login) {
         return personRepo.findByLogin(login);
     }
 
-    public String registration(String fullName, String inn, String birthday, String login, String password){
+    public String registration(String fullName, String inn, String birthday, String login, String password) {
         Person existPerson = personRepo.findByLogin(login);
-        if(existPerson!=null){
-            return "Пользователь с логином "+login+" уже существует";
+        if (existPerson != null) {
+            return "Пользователь с логином " + login + " уже существует";
         }
         Person person = new Person();
         person.setFullName(fullName);
@@ -55,7 +60,18 @@ public class PersonService {
         return null;
     }
 
-    public Collection<Person> getAllSpecialist(){
+    public Collection<Person> getAllSpecialist() {
         return personRepo.findAllSpecialist();
+    }
+
+    public Person getCurrentPerson() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SecurityPerson securityPerson = (SecurityPerson) auth.getPrincipal();
+        Optional<Person> optionalPerson = personRepo.findById(securityPerson.getId());
+        return optionalPerson.orElse(null);
+    }
+
+    public Person getById(Integer id) {
+        return personRepo.getOne(id);
     }
 }

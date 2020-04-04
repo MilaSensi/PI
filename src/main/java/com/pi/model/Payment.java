@@ -1,19 +1,19 @@
 package com.pi.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "payment")
-public class Payment {
+public class Payment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String number;
-    @Column(name = "date_add")
+    @Column(name = "date_start")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateAdd;
+    private Date dateStart;
     @Column(name = "date_end")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEnd;
@@ -25,7 +25,10 @@ public class Payment {
     @JoinColumn(name = "person")
     private Person person;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_status")
+    @JoinColumn(name = "specialist")
+    private Person specialist;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status")
     private PaymentStatus paymentStatus;
 
     public Integer getId() {
@@ -36,20 +39,12 @@ public class Payment {
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public Date getDateStart() {
+        return dateStart;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public Date getDateAdd() {
-        return dateAdd;
-    }
-
-    public void setDateAdd(Date dateAdd) {
-        this.dateAdd = dateAdd;
+    public void setDateStart(Date dateStart) {
+        this.dateStart = dateStart;
     }
 
     public Date getDateEnd() {
@@ -82,6 +77,14 @@ public class Payment {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Person getSpecialist() {
+        return specialist;
+    }
+
+    public void setSpecialist(Person specialist) {
+        this.specialist = specialist;
     }
 
     public PaymentStatus getPaymentStatus() {

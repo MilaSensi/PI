@@ -31,16 +31,16 @@ CREATE TABLE payment_status
     code         VARCHAR(32)  UNIQUE  NOT NULL,
     name         VARCHAR(64)  NOT NULL
 ); 
-INSERT INTO payment_status (code, name) VALUES ('APPROVED', 'Одобрен'),('CANCELED', 'Отменен'),('COMPLETED', 'Выполнен');
+INSERT INTO payment_status (code, name) VALUES ('RESERVED', 'Зарезервирован'), ('APPROVED', 'Одобрен'),('CANCELED', 'Отменен'),('COMPLETED', 'Выполнен');
 
 CREATE TABLE payment
 (
     id              SERIAL          NOT NULL PRIMARY KEY,
-    number          VARCHAR(32)     UNIQUE NOT NULL,
     date_start      TIMESTAMP      NOT NULL,
     date_end        TIMESTAMP,
     photo_service   INTEGER         NOT NULL REFERENCES photo_service (id),
     description     VARCHAR(128),
+    specialist      INTEGER         NOT NULL REFERENCES person (id),
     person          INTEGER         NOT NULL REFERENCES person (id),
     status          INTEGER         NOT NULL REFERENCES payment_status (id)
 );
@@ -49,3 +49,6 @@ insert into photo_service (name, price) values('Фотосессия на фон
 insert into photo_service (name, price) values('Фотосессия семьей', 350000);
 
 insert into person (full_name, inn, birthday, login, password, type) values ('Сидоров Ф.Ф', '222', now(), 'admin', '$2a$11$uU.3McWvCaZmoTH7CLQvo.LP.wdyAGhQLlUkkIt3l/P0U6Qxb2Bhi', 1);
+insert into person (full_name, inn, birthday, login, password, type) values ('Иванов Ф.Ф', '2221', now(), 'spec1', '$2a$11$uU.3McWvCaZmoTH7CLQvo.LP.wdyAGhQLlUkkIt3l/P0U6Qxb2Bhi', 2);
+insert into person (full_name, inn, birthday, login, password, type) values ('Петров Ф.Ф', '2223', now(), 'spec2', '$2a$11$uU.3McWvCaZmoTH7CLQvo.LP.wdyAGhQLlUkkIt3l/P0U6Qxb2Bhi', 2);
+insert into person (full_name, inn, birthday, login, password, type) values ('Самойлова А.Ф', '2226', now(), 'spec3', '$2a$11$uU.3McWvCaZmoTH7CLQvo.LP.wdyAGhQLlUkkIt3l/P0U6Qxb2Bhi', 2);

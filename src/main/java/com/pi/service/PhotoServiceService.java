@@ -17,7 +17,11 @@ public class PhotoServiceService {
         this.photoServiceRepo = photoServiceRepo;
     }
 
-    public Collection<PhotoService> getAllPhotoService(){
+    public PhotoService getById(Integer id) {
+        return photoServiceRepo.getOne(id);
+    }
+
+    public Collection<PhotoService> getAllPhotoService() {
         return photoServiceRepo.findAll();
     }
 }

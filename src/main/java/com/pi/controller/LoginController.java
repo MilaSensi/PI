@@ -76,10 +76,10 @@ public class LoginController {
                 authenticationSuccessHandler.onAuthenticationSuccess(servletRequest, wrapper, authentication);
             } catch (Exception ex) {
             }
-            if(((SecurityPerson) authentication.getPrincipal()).getPersonType().getCode().equals("ADMIN")){
-                return "redirect:/admin";
-            }else{
+            if(((SecurityPerson) authentication.getPrincipal()).getPersonType().getCode().equals("CLIENT")){
                 return "redirect:/client";
+            }else{
+                return "redirect:/orders";
             }
 
         } catch (AuthenticationException e) {
