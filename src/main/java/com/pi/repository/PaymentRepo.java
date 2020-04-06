@@ -14,14 +14,14 @@ public interface PaymentRepo extends JpaRepository<Payment, Integer> {
     @Query("select e from Payment e " +
             " left join fetch e.photoService ps" +
             " left join fetch e.paymentStatus s" +
-            " left join fetch e.person p"+
-            " left join fetch e.specialist spec"+
-            " where e.person.id=:person order by e.dateStart")
+            " left join fetch e.person p" +
+            " left join fetch e.specialist spec" +
+            " where e.person.id=:person order by e.dateStart, e.id")
     Collection<Payment> findByPerson(@Param("person") Integer person);
 
-    @Query("select e from Payment e order by e.dateStart")
+    @Query("select e from Payment e order by e.dateStart, e.id")
     Collection<Payment> findAllPayments();
 
-    @Query("select e from Payment e where e.specialist.id=:specialist order by e.dateStart")
+    @Query("select e from Payment e where e.specialist.id=:specialist order by e.dateStart, e.id")
     Collection<Payment> findAllPaymentsBySpecialist(@Param("specialist") Integer specialist);
 }

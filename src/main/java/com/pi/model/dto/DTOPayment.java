@@ -2,26 +2,31 @@ package com.pi.model.dto;
 
 import com.pi.model.Payment;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class DTOPayment {
 
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private Integer id;
-    private Date dateStart;
-    private Date dateEnd;
+    private String dateStart;
+    private String dateEnd;
     private String description;
     private DTOPhotoService photoService;
     private String specialist;
     private String status;
+    private Integer statusId;
 
     public DTOPayment(Payment payment) {
         this.id = payment.getId();
-        this.dateStart = payment.getDateStart();
-        this.dateEnd = payment.getDateEnd();
+        this.dateStart = sdf.format(payment.getDateStart());
+        if (payment.getDateEnd() != null) {
+            this.dateEnd = sdf.format(payment.getDateEnd());
+        }
         this.description = payment.getDescription();
         this.photoService = new DTOPhotoService(payment.getPhotoService());
         this.specialist = payment.getSpecialist().getFullName();
         this.status = payment.getPaymentStatus().getName();
+        this.statusId = payment.getPaymentStatus().getId();
     }
 
     public Integer getId() {
@@ -32,19 +37,19 @@ public class DTOPayment {
         this.id = id;
     }
 
-    public Date getDateStart() {
+    public String getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(String dateStart) {
         this.dateStart = dateStart;
     }
 
-    public Date getDateEnd() {
+    public String getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(String dateEnd) {
         this.dateEnd = dateEnd;
     }
 
@@ -78,5 +83,13 @@ public class DTOPayment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
     }
 }

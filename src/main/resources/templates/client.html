@@ -22,13 +22,17 @@
     <title>Фотостудия - страница клиента</title>
 </head>
 <body style="background-color: #EAEAEA">
+<div class="person-info">
+    <div style="margin-right: 15px" th:text="${personName}"></div>
+    <a class="btn btn-info" href="/logout">Выйти</a>
+</div>
 <div class="row client-top-row">
-    <div class="col-md-6">
-        <div>Услуги</div>
-        <table>
+    <div class="col-md-4 table-client">
+        <h3>Услуги</h3>
+        <table class="table table-striped">
             <thead>
             <th>Наименование</th>
-            <th>Стоимость</th>
+            <th>Стоимость, руб</th>
             </thead>
             <tbody>
             <tr th:each="service : ${photoServices}">
@@ -38,21 +42,23 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-6">
-        <div>Мои заказы</div>
-        <table>
+    <div class="col-md-8 table-client">
+        <h3>Мои заказы</h3>
+        <table id="table-my-orders" class="table table-striped">
             <thead>
-            <th>Номер</th>
+            <th style="width: 60px">Номер</th>
             <th>Наименование</th>
-            <th>Стоимость</th>
-            <th>Специалист/th>
-            <th>Статус/th>
+            <th>Стоимость, руб</th>
+            <th>Дата</th>
+            <th>Специалист</th>
+            <th>Статус</th>
             </thead>
             <tbody>
             <tr th:each="payment : ${orders}">
-                <td th:text="${payment.id}"></td>
+                <td style="width: 60px" th:text="${payment.id}"></td>
                 <td th:text="${payment.photoService.name}"></td>
                 <td th:text="${payment.photoService.price}"></td>
+                <td th:text="${payment.dateStart}"></td>
                 <td th:text="${payment.specialist}"></td>
                 <td th:text="${payment.status}"></td>
             </tr>
@@ -66,6 +72,7 @@
     <div class="input-form">
         <label for="spec" class="text-info">Выбор специалиста</label><br>
         <select id="spec" class="custom-select">
+            <option th:value="${null}">Не выбран</option>
             <option th:each="spec: ${specialists}" th:value="${spec.id}" th:text="${spec.fullName}"></option>
         </select>
     </div>
@@ -78,13 +85,13 @@
     <div class="input-form">
         <label for="date" class="text-info">Услуги</label><br>
         <select id="service" class="custom-select">
-            <option th:value="${null}">Не выбрано</option>
+            <option th:value="${null}">Не выбрана</option>
             <option th:each="service: ${photoServices}" th:value="${service.id}" th:text="${service.name}"></option>
         </select>
     </div>
 
     <div class="input-form">
-        <button class="btn btn-primary js-button-reserve">Забронировать</button>
+        <button class="btn btn-info js-button-reserve">Забронировать</button>
     </div>
 </div>
 </body>

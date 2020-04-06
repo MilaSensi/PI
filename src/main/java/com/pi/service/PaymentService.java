@@ -1,8 +1,10 @@
 package com.pi.service;
 
 import com.pi.model.Payment;
+import com.pi.model.PaymentStatus;
 import com.pi.model.Person;
 import com.pi.model.dto.DTOPayment;
+import com.pi.model.dto.DTOPaymentStatus;
 import com.pi.repository.PaymentRepo;
 import com.pi.repository.PaymentStatusRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +33,27 @@ public class PaymentService {
         this.photoServiceService = photoServiceService;
     }
 
-    public Collection<Payment> getAllPayments() {
-        return paymentRepo.findAllPayments();
+    public Collection<DTOPayment> getAllPayments() {
+        Collection<Payment> payments = paymentRepo.findAllPayments();
+        Collection<DTOPayment> dtoPayments = new ArrayList<>();
+        for (Payment p : payments) {
+            dtoPayments.add(new DTOPayment(p));
+        }
+        return dtoPayments;
     }
 
-    public Collection<Payment> getPaymentsCurrentSpecialist() throws Exception {
+    public Collection<DTOPayment> getPaymentsCurrentSpecialist() throws Exception {
         Person person = personService.getCurrentPerson();
-        if (person.getPersonType().getCode().equals("SPECIALIST")) {
+        if (!person.getPersonType().getCode().equals("SPECIALIST")) {
             throw new Exception("Текущий пользователь не является специалистом");
         }
-        return paymentRepo.findAllPaymentsBySpecialist(person.getId());
+        Collection<Payment> payments = paymentRepo.findAllPaymentsBySpecialist(person.getId());
+
+        Collection<DTOPayment> dtoPayments = new ArrayList<>();
+        for (Payment p : payments) {
+            dtoPayments.add(new DTOPayment(p));
+        }
+        return dtoPayments;
     }
 
     public Collection<DTOPayment> reserve(Integer service, Integer spec, String date) throws ParseException {
@@ -61,5 +74,19 @@ public class PaymentService {
             dtoPayments.add(new DTOPayment(p));
         }
         return dtoPayments;
+    }
+
+    public Collection<DTOPaymentStatus> getPaymentStatuses() {
+        Collection<DTOPaymentStatus> paymentStatuses = new ArrayList<>();
+        for (PaymentStatus paymentStatus : paymentStatusRepo.findAll()) {
+            paymentStatuses.add(new DTOPaymentStatus(paymentStatus));
+        }
+        return paymentStatuses;
+    }
+
+    public void changeStatus(Integer paymentId, Integer statusId) {
+        Payment payment = paymentRepo.getOne(paymentId);
+        payment.setPaymentStatus(paymentStatusRepo.getOne(statusId));
+        paymentRepo.save(payment);
     }
 }

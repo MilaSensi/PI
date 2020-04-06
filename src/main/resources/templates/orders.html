@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link href="styles.css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="orders.js"></script>
     <title>Фотостудия - страница администратора</title>
 </head>
-<body>
-Страница администратора
+<body style="background-color: #EAEAEA">
+<div class="person-info">
+    <div style="margin-right: 15px" th:text="${personName}"></div>
+    <a class="btn btn-info" href="/logout">Выйти</a>
+</div>
+<div class="table-orders">
+    <h3>Заказы</h3>
+    <table style="table-layout: fixed" id="table-orders" class="table table-striped">
+        <thead>
+        <th style="width: 70px">Номер</th>
+        <th>Наименование</th>
+        <th style="width: 170px">Стоимость, руб</th>
+        <th style="width: 170px">Дата</th>
+        <th style="width: 170px">Специалист</th>
+        <th style="width: 200px">Статус</th>
+        </thead>
+        <tbody>
+        <tr th:each="payment : ${orders}">
+            <td style="width: 60px" th:text="${payment.id}"></td>
+            <td th:text="${payment.photoService.name}"></td>
+            <td th:text="${payment.photoService.price}"></td>
+            <td th:text="${payment.dateStart}"></td>
+            <td th:text="${payment.specialist}"></td>
+            <td style="width: 200px">
+                <select th:id="${payment.id}" class="custom-select">
+                    <option th:each="status: ${paymentStatuses}"
+                            th:value="${status.id}"
+                            th:text="${status.name}"
+                            th:selected="${status.id == payment.statusId}"></option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

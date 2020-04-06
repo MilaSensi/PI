@@ -9,7 +9,7 @@ public class DTOPhotoService {
 
     public DTOPhotoService(PhotoService photoService) {
         this.name = photoService.getName();
-        this.price = photoService.getPrice();
+        this.price = photoService.getPrice() / 100;
     }
 
     public String getName() {

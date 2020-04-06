@@ -1,9 +1,41 @@
+.person-info {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px;
+    align-items: center;
+}
+
+.table-orders {
+    height: -webkit-fill-available;
+    overflow-y: scroll;
+    margin: 0 15px;
+}
+
+.table-client {
+    height: -webkit-fill-available;
+    overflow-y: scroll;
+}
+
+.client-top-row {
+    height: 70vh;
+    margin: 10px;
+    border: 2px solid;
+}
+
+.client-bottom-row {
+    display: flex;
+    height: 20vh;
+    margin: 10px;
+    border: 2px solid;
+    align-items: flex-end;
+}
+
 .input-form {
     width: 250px;
     margin: 0 0 20px 20px;
 }
 
-.client-top-row {
+.order-top-row {
     height: 70vh;
     margin: 10px;
     border: 2px solid;

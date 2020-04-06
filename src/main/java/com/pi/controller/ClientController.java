@@ -38,6 +38,7 @@ public class ClientController {
         model.addAttribute("photoServices", photoServiceService.getAllPhotoService());
         model.addAttribute("specialists", personService.getAllSpecialist());
         model.addAttribute("orders", paymentService.getPayments());
+        model.addAttribute("personName", personService.getCurrentPerson().getFullName());
         return "client";
     }
 
@@ -46,9 +47,9 @@ public class ClientController {
      */
     @PostMapping(value = "/client/reserve")
     @ResponseBody
-    public Collection<DTOPayment>  reserve(@RequestParam("service") Integer service,
-                                           @RequestParam("spec") Integer spec,
-                                           @RequestParam("date") String date) throws ParseException {
+    public Collection<DTOPayment> reserve(@RequestParam("service") Integer service,
+                                          @RequestParam("spec") Integer spec,
+                                          @RequestParam("date") String date) throws ParseException {
         return paymentService.reserve(service, spec, date);
     }
 }
