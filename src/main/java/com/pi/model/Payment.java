@@ -4,29 +4,50 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Заказ
+ */
 @Entity
 @Table(name = "payment")
 public class Payment implements Serializable {
 
+    /**
+     * Идентификатор
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    /**
+     * Дата фотосессии
+     */
     @Column(name = "date_start")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateStart;
-    @Column(name = "date_end")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateEnd;
+    /**
+     * Услуга
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_service")
     private PhotoService photoService;
+    /**
+     * Описание
+     */
     private String description;
+    /**
+     * Клиент
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person")
     private Person person;
+    /**
+     * Специалист
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "specialist")
     private Person specialist;
+    /**
+     * Статус заказа
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "status")
     private PaymentStatus paymentStatus;
@@ -45,14 +66,6 @@ public class Payment implements Serializable {
 
     public void setDateStart(Date dateStart) {
         this.dateStart = dateStart;
-    }
-
-    public Date getDateEnd() {
-        return dateEnd;
-    }
-
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
     }
 
     public PhotoService getPhotoService() {
