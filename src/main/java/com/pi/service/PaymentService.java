@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * Сервис для работы с заказами
+ */
 @Service
 public class PaymentService {
 
@@ -25,6 +28,13 @@ public class PaymentService {
     private final PhotoServiceService photoServiceService;
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
+    /**
+     * Конструктор с параметрами
+     * @param paymentRepo репозиторий заказов
+     * @param paymentStatusRepo репозиторий статусов заказа
+     * @param personService сервис для работы с пользователями
+     * @param photoServiceService сервис для работы с услугами
+     */
     @Autowired
     public PaymentService(PaymentRepo paymentRepo, PaymentStatusRepo paymentStatusRepo, PersonService personService, PhotoServiceService photoServiceService) {
         this.paymentRepo = paymentRepo;
@@ -33,6 +43,10 @@ public class PaymentService {
         this.photoServiceService = photoServiceService;
     }
 
+    /**
+     * Получить все заказы
+     * @return коллекцию заказов
+     */
     public Collection<DTOPayment> getAllPayments() {
         Collection<Payment> payments = paymentRepo.findAllPayments();
         Collection<DTOPayment> dtoPayments = new ArrayList<>();
@@ -42,6 +56,11 @@ public class PaymentService {
         return dtoPayments;
     }
 
+    /**
+     * Получить заказы для авторизованного специалиста
+     * @return коллекцию заказов
+     * @throws Exception Исключение, если текущий пользователь не специалист
+     */
     public Collection<DTOPayment> getPaymentsCurrentSpecialist() throws Exception {
         Person person = personService.getCurrentPerson();
         if (!person.getPersonType().getCode().equals("SPECIALIST")) {
@@ -56,6 +75,14 @@ public class PaymentService {
         return dtoPayments;
     }
 
+    /**
+     * Создать заказ
+     * @param service идентификатор услуги
+     * @param spec идентификатор специалиста
+     * @param date дата заказа
+     * @return коллекцию заказов для авторизованного пользователя
+     * @throws ParseException исключение при парсинге даты
+     */
     public Collection<DTOPayment> reserve(Integer service, Integer spec, String date) throws ParseException {
         Payment payment = new Payment();
         payment.setDateStart(sdf.parse(date));
@@ -76,6 +103,10 @@ public class PaymentService {
         return dtoPayments;
     }
 
+    /**
+     * Получить коллекцию заказов текущего пользователя
+     * @return  коллекцию заказов
+     */
     public Collection<DTOPaymentStatus> getPaymentStatuses() {
         Collection<DTOPaymentStatus> paymentStatuses = new ArrayList<>();
         for (PaymentStatus paymentStatus : paymentStatusRepo.findAll()) {
@@ -84,6 +115,11 @@ public class PaymentService {
         return paymentStatuses;
     }
 
+    /**
+     * Изменить статус заказа
+     * @param paymentId идентификатор заказа
+     * @param statusId идентификатор статуса
+     */
     public void changeStatus(Integer paymentId, Integer statusId) {
         Payment payment = paymentRepo.getOne(paymentId);
         payment.setPaymentStatus(paymentStatusRepo.getOne(statusId));
