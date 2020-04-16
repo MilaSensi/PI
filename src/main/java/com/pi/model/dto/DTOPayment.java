@@ -9,7 +9,6 @@ public class DTOPayment {
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private Integer id;
     private String dateStart;
-    private String dateEnd;
     private String description;
     private DTOPhotoService photoService;
     private String specialist;
@@ -19,9 +18,6 @@ public class DTOPayment {
     public DTOPayment(Payment payment) {
         this.id = payment.getId();
         this.dateStart = sdf.format(payment.getDateStart());
-        if (payment.getDateEnd() != null) {
-            this.dateEnd = sdf.format(payment.getDateEnd());
-        }
         this.description = payment.getDescription();
         this.photoService = new DTOPhotoService(payment.getPhotoService());
         this.specialist = payment.getSpecialist().getFullName();
@@ -43,14 +39,6 @@ public class DTOPayment {
 
     public void setDateStart(String dateStart) {
         this.dateStart = dateStart;
-    }
-
-    public String getDateEnd() {
-        return dateEnd;
-    }
-
-    public void setDateEnd(String dateEnd) {
-        this.dateEnd = dateEnd;
     }
 
     public String getDescription() {

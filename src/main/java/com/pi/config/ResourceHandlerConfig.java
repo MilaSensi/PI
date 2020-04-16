@@ -10,8 +10,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class ResourceHandlerConfig extends WebMvcConfigurerAdapter {
 
-    @Value("${project.root}")
-    private String projectRoot;
+    //("${project.root}")
+    private String projectRoot = "D:\\АлтГТУ\\3 курс\\6 семак\\ПИ\\project\\PI";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
