@@ -7,11 +7,19 @@ import java.io.Serializable;
 @Table(name = "photo_service")
 public class PhotoService implements Serializable {
 
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    /**
+     * название
+     */
     private String name;
+    /**
+     * цена
+     */
     private Integer price;
 
     public Integer getId() {

@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
+/**
+ * Контроллер пользователей
+ */
 @RestController
 public class PersonController {
 
@@ -20,6 +23,10 @@ public class PersonController {
         this.personService = personService;
     }
 
+    /**
+     * получить всех специалистов
+     * @return коллеццию специалстов
+     */
     @GetMapping("/persons/specialists")
     public Collection<Person> getAllSpecialist() {
         return personService.getAllSpecialist();

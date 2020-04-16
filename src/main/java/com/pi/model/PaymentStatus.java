@@ -7,10 +7,19 @@ import java.io.Serializable;
 @Table(name = "payment_status")
 public class PaymentStatus implements Serializable {
 
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    /**
+     * код
+     */
     private String code;
+    /**
+     * название
+     */
     private String name;
 
     public Integer getId() {

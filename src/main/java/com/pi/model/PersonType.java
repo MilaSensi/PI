@@ -7,10 +7,19 @@ import java.io.Serializable;
 @Table(name = "person_type")
 public class PersonType implements Serializable {
 
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    /**
+     * код
+     */
     private String code;
+    /**
+     * название
+     */
     private String name;
 
     public Integer getId() {

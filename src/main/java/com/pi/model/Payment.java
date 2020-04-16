@@ -8,25 +8,51 @@ import java.util.Date;
 @Table(name = "payment")
 public class Payment implements Serializable {
 
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    /**
+     * дата заказа
+     */
+
     @Column(name = "date_start")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateStart;
+    /**
+     * дата завершения заказа
+     */
     @Column(name = "date_end")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateEnd;
+
+    /**
+     * услуга
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_service")
     private PhotoService photoService;
+    /**
+     * описание
+     */
     private String description;
+    /**
+     * клиент
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person")
     private Person person;
+    /**
+     * специалист
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "specialist")
     private Person specialist;
+    /**
+     * статус заказа
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "status")
     private PaymentStatus paymentStatus;

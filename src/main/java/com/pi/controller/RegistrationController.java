@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * контроллер регистрации
+ */
 @Controller
 public class RegistrationController {
 
@@ -18,11 +21,25 @@ public class RegistrationController {
         this.personService = personService;
     }
 
+    /**
+     * получить страницу регистрации
+     * @return страницу регистрации
+     */
     @GetMapping(value = "/registration")
     public String registration(){
         return "registration";
     }
 
+    /**
+     * процесс регистрации
+     * @param fullName фио
+     * @param inn инн
+     * @param birthday дата рождения
+     * @param login логин
+     * @param password пароль
+     * @param attributes
+     * @return страницу регистрации или логина
+     */
     @PostMapping(value = "/registration/process")
     public String process(
             @RequestParam("fullName") String fullName,

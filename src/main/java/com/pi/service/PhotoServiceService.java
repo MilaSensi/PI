@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+/**
+ * Сервис упраления услугами
+ */
 @Service
 public class PhotoServiceService {
 
@@ -17,10 +20,21 @@ public class PhotoServiceService {
         this.photoServiceRepo = photoServiceRepo;
     }
 
+    /**
+     * Получить услугу по id
+     *
+     * @param id id услуги
+     * @return услугу
+     */
     public PhotoService getById(Integer id) {
         return photoServiceRepo.getOne(id);
     }
 
+    /**
+     * получить весь список услуг
+     *
+     * @return коллекция услуг
+     */
     public Collection<PhotoService> getAllPhotoService() {
         return photoServiceRepo.findAll();
     }

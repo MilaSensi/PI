@@ -8,21 +8,44 @@ import java.util.Date;
 @Table(name = "person")
 public class Person implements Serializable {
 
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /**
+     * фио
+     */
     @Column(name="full_name")
     private String fullName;
+    /**
+     * инн
+     */
     private String inn;
 
+    /**
+     * дата рождения
+     */
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthday;
+    /**
+     * логин
+     */
     private String login;
+    /**
+     * пароль
+     */
     @Column(name="password")
     private String passwordHash;
+    /**
+     * адрес
+     */
     private String position;
-
+    /**
+     * тип
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "type")
     private PersonType personType;

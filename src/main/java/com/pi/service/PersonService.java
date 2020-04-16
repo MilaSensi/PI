@@ -40,6 +40,16 @@ public class PersonService {
         return personRepo.findByLogin(login);
     }
 
+    /**
+     * Загеристрировать пользователя
+     *
+     * @param fullName фио
+     * @param inn      инн
+     * @param birthday дата рождения
+     * @param login    логин
+     * @param password пароль
+     * @return текст ошибки если не удалось зарегистрировать или null при успехе
+     */
     public String registration(String fullName, String inn, String birthday, String login, String password) {
         Person existPerson = personRepo.findByLogin(login);
         if (existPerson != null) {
@@ -60,10 +70,20 @@ public class PersonService {
         return null;
     }
 
+    /**
+     * Получить всех специалистов
+     *
+     * @return коллекцию специалистов
+     */
     public Collection<Person> getAllSpecialist() {
         return personRepo.findAllSpecialist();
     }
 
+    /**
+     * Получить текушего пользователя
+     *
+     * @return пользователя
+     */
     public Person getCurrentPerson() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         SecurityPerson securityPerson = (SecurityPerson) auth.getPrincipal();
@@ -71,6 +91,12 @@ public class PersonService {
         return optionalPerson.orElse(null);
     }
 
+    /**
+     * получить пользователя по id
+     *
+     * @param id id пользователя
+     * @return пользователя
+     */
     public Person getById(Integer id) {
         return personRepo.getOne(id);
     }

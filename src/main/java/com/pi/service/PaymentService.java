@@ -14,8 +14,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
+/**
+ * Сервис управления заказами
+ */
 @Service
 public class PaymentService {
 
@@ -33,6 +35,10 @@ public class PaymentService {
         this.photoServiceService = photoServiceService;
     }
 
+    /**
+     * Получить все заказы
+     * @return коллекция заказов
+     */
     public Collection<DTOPayment> getAllPayments() {
         Collection<Payment> payments = paymentRepo.findAllPayments();
         Collection<DTOPayment> dtoPayments = new ArrayList<>();
@@ -42,6 +48,11 @@ public class PaymentService {
         return dtoPayments;
     }
 
+    /**
+     * Получить заказы авторизованного специалиста
+     * @return коллекция заказов
+     * @throws Exception исключние если пользователь не специалист
+     */
     public Collection<DTOPayment> getPaymentsCurrentSpecialist() throws Exception {
         Person person = personService.getCurrentPerson();
         if (!person.getPersonType().getCode().equals("SPECIALIST")) {
@@ -56,6 +67,14 @@ public class PaymentService {
         return dtoPayments;
     }
 
+    /**
+     * Создать заказ
+     * @param service услуга
+     * @param spec специалист
+     * @param date дата оказания услуги
+     * @return коллекицю всех заказов текущего пользвателя
+     * @throws ParseException исключние, если не получилось разобрать дату
+     */
     public Collection<DTOPayment> reserve(Integer service, Integer spec, String date) throws ParseException {
         Payment payment = new Payment();
         payment.setDateStart(sdf.parse(date));
@@ -67,6 +86,10 @@ public class PaymentService {
         return getPayments();
     }
 
+    /**
+     * Получить все заказы текущего пользователя
+     * @return коллекция заказов
+     */
     public Collection<DTOPayment> getPayments() {
         Collection<Payment> payments = paymentRepo.findByPerson(personService.getCurrentPerson().getId());
         Collection<DTOPayment> dtoPayments = new ArrayList<>();
@@ -76,6 +99,10 @@ public class PaymentService {
         return dtoPayments;
     }
 
+    /**
+     * получить стутусы заказов
+     * @return коллеция статусов
+     */
     public Collection<DTOPaymentStatus> getPaymentStatuses() {
         Collection<DTOPaymentStatus> paymentStatuses = new ArrayList<>();
         for (PaymentStatus paymentStatus : paymentStatusRepo.findAll()) {
@@ -84,6 +111,11 @@ public class PaymentService {
         return paymentStatuses;
     }
 
+    /**
+     * Сменить статус заказа
+     * @param paymentId заказ
+     * @param statusId статус
+     */
     public void changeStatus(Integer paymentId, Integer statusId) {
         Payment payment = paymentRepo.getOne(paymentId);
         payment.setPaymentStatus(paymentStatusRepo.getOne(statusId));

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 
+/**
+ * репозиторий услуг
+ */
 @Repository
 public interface PhotoServiceRepo extends JpaRepository<PhotoService, Integer> {
 }
