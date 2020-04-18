@@ -1,6 +1,5 @@
 package com.pi.controller;
 
-import com.pi.model.dto.DTOPayment;
 import com.pi.service.PaymentService;
 import com.pi.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.text.ParseException;
-import java.util.Collection;
 
 /**
  * Контроллер заказов

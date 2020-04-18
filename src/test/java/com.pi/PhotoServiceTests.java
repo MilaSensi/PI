@@ -2,20 +2,14 @@ package com.pi;
 
 import com.pi.model.*;
 import com.pi.repository.*;
-import com.pi.service.PaymentService;
-import com.pi.service.PersonService;
-import com.pi.service.PhotoServiceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.Date;
 
 import static org.hamcrest.number.OrderingComparison.comparesEqualTo;
@@ -27,15 +21,9 @@ import static org.junit.Assert.assertThat;
 public class PhotoServiceTests {
 
     @Autowired
-    private PaymentService paymentService;
-    @Autowired
     private PaymentStatusRepo paymentStatusRepo;
     @Autowired
     private PaymentRepo paymentRepo;
-    @Autowired
-    private PersonService personService;
-    @Autowired
-    private PhotoServiceService photoServiceService;
     @Autowired
     private PersonTypeRepo personTypeRepo;
     @Autowired
@@ -44,40 +32,71 @@ public class PhotoServiceTests {
     private PhotoServiceRepo photoServiceRepo;
 
     @Before
-    public void setup() throws Exception {
-        initPaymentStatus();
+    public void setup() {
+        init();
     }
 
-    public void initPaymentStatus() {
-        paymentStatusRepo.delete(paymentStatusRepo.findByCode("TEST"));
-        Person person = personRepo.findByLogin("TEST");
+    public void init() {
+        PaymentStatus ps = paymentStatusRepo.findByCode("TEST PAYMENT STATUS");
+        if (ps != null) {
+            paymentStatusRepo.delete(ps);
+        }
+        Person person = personRepo.findByLogin("TEST LOGIN");
         if (person != null) {
             for (Payment payment : paymentRepo.findByPerson(person.getId())) {
                 paymentRepo.delete(payment);
             }
             personRepo.delete(person);
         }
-
-        photoServiceRepo.delete(photoServiceRepo.findByName("TEST"));
+        PersonType personType = personTypeRepo.findByCode("TEST PERSON TYPE");
+        if (personType != null) {
+            personTypeRepo.delete(personType);
+        }
+        PhotoService photoService = photoServiceRepo.findByName("TEST");
+        if (photoService != null) {
+            photoServiceRepo.delete(photoService);
+        }
     }
 
     @Test
+    @Transactional
+    public void testSavePersonType() {
+        init();
+        PersonType personType = new PersonType();
+        personType.setCode("TEST PERSON TYPE");
+        personType.setName("TEST");
+        personTypeRepo.saveAndFlush(personType);
+        PersonType p = personTypeRepo.findByCode("TEST PERSON TYPE");
+        assertNotEquals(p, null);
+        assertThat("TEST PERSON TYPE", comparesEqualTo(p.getCode()));
+        assertThat("TEST", comparesEqualTo(p.getName()));
+    }
+
+    @Test
+    @Transactional
     public void testSavePerson() {
+        init();
+        PersonType personType = new PersonType();
+        personType.setCode("TEST PERSON TYPE");
+        personType.setName("TEST");
+        personTypeRepo.saveAndFlush(personType);
+
         Person person = new Person();
         person.setBirthday(new Date());
         person.setFullName("TEST");
-        person.setInn("12345");
+        person.setInn("1234554321");
         person.setLogin("TEST LOGIN");
         person.setPasswordHash("TEST");
-        person.setPersonType(personTypeRepo.findByCode("TEST"));
+        person.setPersonType(personTypeRepo.findByCode("TEST PERSON TYPE"));
         personRepo.save(person);
-        Person p = personRepo.findByLogin("TEST");
+        Person p = personRepo.findByLogin("TEST LOGIN");
         assertNotEquals(p, null);
         assertThat("TEST LOGIN", comparesEqualTo(p.getLogin()));
     }
 
     @Test
     public void testSavePhotoService() {
+        init();
         PhotoService ps = new PhotoService();
         ps.setName("TEST");
         ps.setPrice(10000);
@@ -90,38 +109,37 @@ public class PhotoServiceTests {
 
     @Test
     public void testSavePaymentStatus() {
-        Collection<PaymentStatus> statuses = paymentStatusRepo.findAll();
-        assertThat(4, comparesEqualTo(statuses.size()));
+        init();
         PaymentStatus paymentStatus = new PaymentStatus();
-        paymentStatus.setCode("TEST");
+        paymentStatus.setCode("TEST PAYMENT STATUS");
         paymentStatus.setName("Тестовый");
         paymentStatusRepo.save(paymentStatus);
-        PaymentStatus ps = paymentStatusRepo.findByCode("TEST");
-        assertThat("TEST", comparesEqualTo(ps.getCode()));
+        PaymentStatus ps = paymentStatusRepo.findByCode("TEST PAYMENT STATUS");
+        assertThat("TEST PAYMENT STATUS", comparesEqualTo(ps.getCode()));
         assertThat("Тестовый", comparesEqualTo(ps.getName()));
-        statuses = paymentStatusRepo.findAll();
-        assertThat(5, comparesEqualTo(statuses.size()));
     }
 
     @Test
+    @Transactional
     public void testSavePayment() {
+        init();
         PaymentStatus paymentStatus = new PaymentStatus();
-        paymentStatus.setCode("TEST");
+        paymentStatus.setCode("TEST PAYMENT STATUS");
         paymentStatus.setName("Тестовый");
         paymentStatusRepo.save(paymentStatus);
 
         PersonType personType = new PersonType();
-        personType.setCode("TEST PAYMENT STATUS");
+        personType.setCode("TEST PERSON TYPE");
         personType.setName("TEST");
         personTypeRepo.save(personType);
 
         Person person = new Person();
         person.setBirthday(new Date());
         person.setFullName("TEST");
-        person.setInn("12345");
+        person.setInn("1234554321");
         person.setLogin("TEST LOGIN");
         person.setPasswordHash("TEST");
-        person.setPersonType(personTypeRepo.findByCode("TEST"));
+        person.setPersonType(personTypeRepo.findByCode("TEST PERSON TYPE"));
         person = personRepo.save(person);
 
         PhotoService ps = new PhotoService();
@@ -131,7 +149,7 @@ public class PhotoServiceTests {
 
         Payment payment = new Payment();
         payment.setDateStart(new Date());
-        payment.setPaymentStatus(paymentStatusRepo.findByCode("TEST"));
+        payment.setPaymentStatus(paymentStatusRepo.findByCode("TEST PAYMENT STATUS"));
         payment.setSpecialist(person);
         payment.setPhotoService(ps);
         payment.setPerson(person);
