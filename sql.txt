@@ -52,3 +52,13 @@ insert into person (full_name, inn, birthday, login, password, type) values ('С
 insert into person (full_name, inn, birthday, login, password, type) values ('Иванов Ф.Ф', '2221', now(), 'spec1', '$2a$11$uU.3McWvCaZmoTH7CLQvo.LP.wdyAGhQLlUkkIt3l/P0U6Qxb2Bhi', 2);
 insert into person (full_name, inn, birthday, login, password, type) values ('Петров Ф.Ф', '2223', now(), 'spec2', '$2a$11$uU.3McWvCaZmoTH7CLQvo.LP.wdyAGhQLlUkkIt3l/P0U6Qxb2Bhi', 2);
 insert into person (full_name, inn, birthday, login, password, type) values ('Самойлова А.Ф', '2226', now(), 'spec3', '$2a$11$uU.3McWvCaZmoTH7CLQvo.LP.wdyAGhQLlUkkIt3l/P0U6Qxb2Bhi', 2);
+
+CREATE TABLE message
+(
+    id              BIGSERIAL          NOT NULL PRIMARY KEY,
+    message          TEXT      NOT NULL,
+    sender          VARCHAR(32)      NOT NULL,
+    date_send      TIMESTAMP      NOT NULL  DEFAULT now(),
+    client          INTEGER         NOT NULL REFERENCES person (id),
+    admin          INTEGER         NOT NULL REFERENCES person (id)
+);

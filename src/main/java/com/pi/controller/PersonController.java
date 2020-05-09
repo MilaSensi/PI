@@ -29,4 +29,14 @@ public class PersonController {
     public Collection<Person> getAllSpecialist() {
         return personService.getAllSpecialist();
     }
+
+    @GetMapping("/persons/clients")
+    public Collection<Person> getAllClients() {
+        return personService.getAllClients();
+    }
+
+    @GetMapping("/persons/photoworkers")
+    public Collection<Person> getAllPhotoWorkers() {
+        return personService.getAllPhotoWorkers();
+    }
 }

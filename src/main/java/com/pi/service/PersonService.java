@@ -100,4 +100,12 @@ public class PersonService {
     public Person getById(Integer id) {
         return personRepo.getOne(id);
     }
+
+    public Collection<Person> getAllClients() {
+        return personRepo.findAllClients();
+    }
+
+    public Collection<Person> getAllPhotoWorkers() {
+        return personRepo.findAllPhotoWorkers();
+    }
 }

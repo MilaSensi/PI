@@ -81,3 +81,68 @@ body {
 #form-block .container #login-row #login-column #login-box #login-form #register-link {
     margin-top: -85px;
 }
+
+.message {
+    margin-bottom: 10px;
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.message-sender {
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.message-time {
+    font-size: 11px;
+    font-weight: 300;
+    color: #9C9C9C;
+}
+
+.message-text {
+    font-size: 12px;
+}
+
+.message-person {
+    height: 50px;
+    border: 1px solid #9C9C9C;
+}
+
+.selected {
+    background-color: #17a2b8;
+}
+
+.chat {
+    height: 80vh;
+    border: 1px solid #9C9C9C;
+}
+
+.chat-bottom {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 10px;
+}
+
+.chat-textarea {
+    width: 80%;
+    margin-right: 10px;
+}
+
+.chat-body {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 80%;
+    overflow-y: scroll;
+    border: 1px solid #9C9C9C;
+}
+

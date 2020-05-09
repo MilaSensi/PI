@@ -16,6 +16,7 @@ public interface PersonRepo extends JpaRepository<Person, Integer> {
 
     /**
      * Найти специалистов
+     *
      * @return коллекцию пользователей
      */
     @Query("select e from Person e where e.personType.code='SPECIALIST'")
@@ -23,9 +24,16 @@ public interface PersonRepo extends JpaRepository<Person, Integer> {
 
     /**
      * Найти пользователя по логину
+     *
      * @param login логин
      * @return пользователя
      */
     @Query("select e from Person e where e.login=:login")
     Person findByLogin(@Param("login") String login);
+
+    @Query("select e from Person e where e.personType.code='CLIENT'")
+    Collection<Person> findAllClients();
+
+    @Query("select e from Person e where e.personType.code='ADMIN' or e.personType.code='SPECIALIST'")
+    Collection<Person> findAllPhotoWorkers();
 }
